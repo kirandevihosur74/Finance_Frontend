@@ -26,9 +26,33 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>{children}</Providers>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-b from-gray-50 to-white dark:from-black dark:to-gray-950`}>
+        <Providers>
+          <div className="mx-auto max-w-7xl px-4 py-6">
+            <Header />
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );
+}
+
+function Header() {
+  return (
+    <header className="sticky top-0 z-10 mb-6 rounded-xl border border-gray-200/60 bg-white/70 p-3 backdrop-blur supports-[backdrop-filter]:bg-white/40 dark:border-gray-800/60 dark:bg-gray-900/60">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold tracking-tight">Finance Dashboard</h1>
+        {/* @ts-expect-error server-to-client boundary */}
+        <ThemeClientToggle />
+      </div>
+    </header>
+  )
+}
+
+// Inline client wrapper for ThemeToggle
+function ThemeClientToggle() {
+  // @ts-ignore
+  const Comp = require('./_components/ThemeToggle').default
+  return <Comp />
 }

@@ -1,11 +1,16 @@
 import { Suspense } from "react";
 import CategoryInlineEdit from "./_components/CategoryInlineEdit";
+import ChatPanel from "./_components/ChatPanel";
 // Using mock data for now; real types will be used when connecting to backend
 import { getSafeToSpend, getUpcomingBills, getCashflowMTD, getTopMerchants, getCreditUtilization, getMonthlyDigest, getTransactions } from "./lib/mock";
 
 export default function Home() {
   return (
-    <div className="grid grid-cols-1 gap-4 p-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+      <div className="lg:col-span-4 order-first lg:order-none">
+        <ChatPanel />
+      </div>
+      <div className="lg:col-span-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
       <Card title="Safe to Spend">
         <SafeToSpendCard />
       </Card>
@@ -24,10 +29,11 @@ export default function Home() {
       <Card title="Monthly Digest">
         <MonthlyDigestCard />
       </Card>
-      <div className="md:col-span-2 lg:col-span-3">
-        <Card title="Transactions">
-          <TransactionsTable />
-        </Card>
+        <div className="md:col-span-2 lg:col-span-2">
+          <Card title="Transactions">
+            <TransactionsTable />
+          </Card>
+        </div>
       </div>
     </div>
   );
@@ -35,9 +41,9 @@ export default function Home() {
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border bg-white p-4 shadow dark:border-gray-800 dark:bg-black">
+    <div className="group rounded-2xl border border-gray-200/70 bg-white/80 p-5 shadow-sm ring-1 ring-black/[0.02] transition hover:shadow-md dark:border-gray-800/60 dark:bg-gray-900/70">
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">{title}</h2>
+        <h2 className="text-base font-semibold tracking-tight text-gray-900 dark:text-gray-100">{title}</h2>
       </div>
       <Suspense fallback={<div className="skeleton h-20 w-full" />}>{children}</Suspense>
     </div>
@@ -71,8 +77,8 @@ function CashflowCard() {
   const d = getCashflowMTD();
   return (
     <div className="text-sm">
-      <div className="mb-1">Income: {Intl.NumberFormat(undefined, { style: 'currency', currency: d.currency || 'USD' }).format(d.income)}</div>
-      <div className="mb-1">Expenses: {Intl.NumberFormat(undefined, { style: 'currency', currency: d.currency || 'USD' }).format(d.expenses)}</div>
+      <div className="mb-1 text-gray-600 dark:text-gray-300">Income: {Intl.NumberFormat(undefined, { style: 'currency', currency: d.currency || 'USD' }).format(d.income)}</div>
+      <div className="mb-1 text-gray-600 dark:text-gray-300">Expenses: {Intl.NumberFormat(undefined, { style: 'currency', currency: d.currency || 'USD' }).format(d.expenses)}</div>
       <div className="font-medium">Net: {Intl.NumberFormat(undefined, { style: 'currency', currency: d.currency || 'USD' }).format(d.net)}</div>
     </div>
   );
@@ -119,25 +125,25 @@ function MonthlyDigestCard() {
 function TransactionsTable() {
   const rows = getTransactions();
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-hidden rounded-xl border border-gray-200/70 bg-white/80 shadow-sm dark:border-gray-800/60 dark:bg-gray-900/70">
       <table className="min-w-full text-sm">
         <thead>
           <tr className="text-left text-gray-500">
-            <th className="px-2 py-1">Date</th>
-            <th className="px-2 py-1">Description</th>
-            <th className="px-2 py-1">Amount</th>
-            <th className="px-2 py-1">Category</th>
+            <th className="px-3 py-2">Date</th>
+            <th className="px-3 py-2">Description</th>
+            <th className="px-3 py-2">Amount</th>
+            <th className="px-3 py-2">Category</th>
           </tr>
         </thead>
         <tbody>
           {rows.slice(0,20).map((t) => (
-            <tr key={t.id} className="border-t border-gray-200 dark:border-gray-800">
-              <td className="px-2 py-1 whitespace-nowrap">{new Date(t.date).toLocaleDateString()}</td>
-              <td className="px-2 py-1">{t.description}</td>
-              <td className={`px-2 py-1 whitespace-nowrap font-medium ${t.amount < 0 ? 'text-red-600' : 'text-green-600'}`}>
+            <tr key={t.id} className="border-t border-gray-200/70 dark:border-gray-800/60">
+              <td className="px-3 py-2 whitespace-nowrap">{new Date(t.date).toLocaleDateString()}</td>
+              <td className="px-3 py-2">{t.description}</td>
+              <td className={`px-3 py-2 whitespace-nowrap font-medium ${t.amount < 0 ? 'text-red-600' : 'text-green-600'}`}>
                 {Intl.NumberFormat(undefined, { style: 'currency', currency: t.currency || 'USD' }).format(t.amount)}
               </td>
-              <td className="px-2 py-1"><CategoryInlineEdit id={t.id} category={t.category} /></td>
+              <td className="px-3 py-2"><CategoryInlineEdit id={t.id} category={t.category} /></td>
             </tr>
           ))}
         </tbody>
