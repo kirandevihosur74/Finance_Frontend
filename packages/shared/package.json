@@ -1,0 +1,19 @@
+{
+  "name": "@finance/shared",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json --declaration --emitDeclarationOnly --outDir dist",
+    "dev": "tsc -w -p tsconfig.json --declaration --emitDeclarationOnly --outDir dist",
+    "lint": "echo 'no lint'"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
+

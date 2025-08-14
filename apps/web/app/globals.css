@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light dark; }
+
+body { font-family: Arial, Helvetica, sans-serif; }
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .skeleton { @apply animate-pulse rounded-md bg-gray-200 dark:bg-gray-800; }
+}

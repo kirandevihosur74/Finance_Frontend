@@ -1,0 +1,38 @@
+{
+  "name": "finance_frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "dev:web": "npm run dev --prefix apps/web",
+    "dev:mobile": "npm run dev --prefix apps/mobile",
+    "build:web": "npm run build --prefix apps/web",
+    "build:mobile": "npm run build --prefix apps/mobile",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirandevihosur74/Finance_Frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kirandevihosur74/Finance_Frontend/issues"
+  },
+  "homepage": "https://github.com/kirandevihosur74/Finance_Frontend#readme",
+  "devDependencies": {
+    "turbo": "^2.5.5"
+  },
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "packageManager": "npm@10.8.1"
+}
